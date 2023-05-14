@@ -191,6 +191,7 @@ public class BSFrame extends JFrame {
         this.searchPanel3.add(this.searchScroll);
 
 
+        //OTHER
         this.add(this.tabbedPane);
         this.setVisible(true);
         this.refreshServiceTable();
