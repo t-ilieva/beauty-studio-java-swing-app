@@ -84,6 +84,8 @@ public class BSFrame extends JFrame {
     //ПАНЕЛ ЗА ТЪРСЕНЕ
     JLabel searchL = new JLabel("Въведете категория за търсене:");
     JTextField searchTF = new JTextField();
+    JLabel searchL1 = new JLabel("Въведете локация за търсене:");
+    JTextField searchTF1 = new JTextField();
     JPanel searchPanel = new JPanel();
     JPanel searchPanel1 = new JPanel();
     JPanel searchPanel2 = new JPanel();
@@ -181,6 +183,9 @@ public class BSFrame extends JFrame {
         this.searchPanel1.add(this.searchL);
         this.searchPanel1.add(this.searchTF);
         this.searchTF.setPreferredSize(new Dimension(450, 30));
+        this.searchPanel1.add(this.searchL1);
+        this.searchPanel1.add(this.searchTF1);
+        this.searchTF1.setPreferredSize(new Dimension(450, 30));
 
         this.searchPanel.add(this.searchPanel2);
         this.searchPanel2.add(this.searchSearchButton);
@@ -676,10 +681,12 @@ public class BSFrame extends JFrame {
                         "LOCATIONTABLE.LOCATIONNAME, SERVICETABLE.LOCATIONID, DESCRIPTION, PRICE, TIME " +
                         "from SERVICETABLE, CATEGORYTABLE, LOCATIONTABLE " +
                         "where SERVICETABLE.CATEGORYID = CATEGORYTABLE.ID and SERVICETABLE.LOCATIONID = LOCATIONTABLE.ID " +
-                        "and CATEGORYTABLE.CATEGORYNAME ='" + BSFrame.this.searchTF.getText() + "'";
+                        "and CATEGORYTABLE.CATEGORYNAME = ? and LOCATIONTABLE.LOCATIONNAME = ?";
 
                 try {
                     BSFrame.this.statement = BSFrame.this.connection.prepareStatement(str);
+                    BSFrame.this.statement.setString(1, BSFrame.this.searchTF.getText());
+                    BSFrame.this.statement.setString(2, BSFrame.this.searchTF1.getText());
                     BSFrame.this.result = BSFrame.this.statement.executeQuery();
                     BSFrame.this.searchTable.setModel(new MyTModel(BSFrame.this.result));
                     BSFrame.this.searchTable.getColumnModel().getColumn(3).setMinWidth(0);
@@ -695,6 +702,7 @@ public class BSFrame extends JFrame {
                 }
 
                 BSFrame.this.searchTF.setText("");
+                BSFrame.this.searchTF1.setText("");
             }
 
         }
